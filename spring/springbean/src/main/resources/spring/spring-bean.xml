@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                http://www.springframework.org/schema/util
+                http://www.springframework.org/schema/util/spring-util-4.3.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--
+        bean： bean 对象，
+        class：全类名，通过反射的形式来创建对象，要求，如果类中其他带参构造函数，
+        则必须提供一个午餐构造函数。
+        id:给外部提供的bean 对象的引用。
+
+        首先初始化Application 容器，application 容器的构造方式类似如下：
+        ApplicationContext context = new ClassPathXmlApplicationContext(....);
+        通过xml 中bean 配置的id 或者类型的信息，可以有多个重载的getBean(...)方法获取bean
+
+        bean 有三种方式的依赖注入：
+        分别是：
+        属性注入：即通过setter 方法给对象的属性赋值 用到的标签是<property>
+        <property> 标签具有的属性有id，value，ref
+        构造器注入： 通过构造函数的方式进行注入，用到的标签是 <constructor-arg>
+        工程方法注入（很少用到，有兴趣可以深入了解）
+
+
+    -->
+    <bean name="dog01" class="com.sydney.dream.springbean.Dog"  >
+        <property name="id" value="1"  />
+        <property name="size" value="5" />
+        <property name="name" value="hello" />
+    </bean>
+
+    <bean name="dog" class="com.sydney.dream.springbean.Dog"  >
+        <property name="id" value="1"  />
+        <property name="size" value="5" />
+        <property name="name" value="hello" />
+    </bean>
+
+    <!--
+        使用构造器的方式进行属性的注入，
+        注意，构造器有多个，其容易产生歧义的情况下，（重载的情况下）
+        bean 的定义不可以产生歧义，可以通过index和 type
+        使这个bean 唯一。
+        注意：<constructor-arg> 下面还有一个value 子节点，用来表示其值。
+    -->
+    <bean name="dog02" class="com.sydney.dream.springbean.Dog" >
+        <constructor-arg value="1" ></constructor-arg>
+        <constructor-arg value="5"></constructor-arg>
+        <constructor-arg value="nima"></constructor-arg>
+    </bean>
+
+
+    <!--
+        属性注入的细节：如果注入的属性中，有特殊的字符，需要特殊地进行处理。
+        比如当属性值中拥有>的时候。配置如下
+    -->
+    <bean id="dog03" class="com.sydney.dream.springbean.Dog">
+        <constructor-arg value="3" ></constructor-arg>
+        <constructor-arg value="3" ></constructor-arg>
+        <constructor-arg >
+            <value><![CDATA[<caonima>]]></value>
+        </constructor-arg>
+    </bean>
+
+    <!--
+        一对一的bean 关系，一人对一狗，一狗对一人
+        用ref 属性表示属性间的引用关系。
+        注意property 下面还有一个ref 的字标签可以用，
+        还可以使用内部bean 的方式。
+        内部bean 的ip 可以没有。
+        可以用 <null></null> 对引用类型的值赋予
+    -->
+    <bean id="xiaohong" class="com.sydney.dream.springbean.Person">
+        <property name="age" value="1" ></property>
+        <property name="name" value="xiaohong"></property>
+       <!-- <property name="dog" ref="dog03" ></property>-->
+       <!-- <property name="dog" >
+            <ref bean="dog03"></ref>
+        </property>-->
+        <property name="dog">
+            <bean class="com.sydney.dream.springbean.Dog">
+                <constructor-arg value="3" ></constructor-arg>
+                <constructor-arg value="3" ></constructor-arg>
+                <constructor-arg >
+                    <value><![CDATA[<caonima>]]></value>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+    <bean id="xiaoming" class="com.sydney.dream.springbean.Person" >
+        <constructor-arg name="age" value="1"></constructor-arg>
+        <constructor-arg name="name">
+            <value>xiaoming</value>
+        </constructor-arg>
+       <!-- <constructor-arg name="dog" ref="dog03"></constructor-arg>-->
+       <!-- <constructor-arg name="dog">
+            <ref bean="dog03"></ref>
+        </constructor-arg>-->
+        <constructor-arg name="dog">
+            <bean class="com.sydney.dream.springbean.Dog">
+                <constructor-arg value="3" ></constructor-arg>
+                <constructor-arg value="3" ></constructor-arg>
+                <constructor-arg >
+                    <value><![CDATA[<caonima>]]></value>
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
+        <!--
+            使用级联属性赋值,使用级联属性前，dog 对象不许存在，否则会被报错。
+        -->
+        <property name="dog.name" value="enhaenha"></property>
+       <!--
+       使用null 进行赋值
+       <constructor-arg name="dog" >
+            <null></null>
+        </constructor-arg>-->
+    </bean>
+
+    <bean name="car" class="com.sydney.dream.springbean.Car">
+        <property name="name" value="baoma"></property>
+        <property name="price" value="200000"></property>
+    </bean>
+
+    <bean name="baoma" class="com.sydney.dream.springbean.Car">
+        <property name="name" value="baoma"></property>
+        <property name="price" value="200000"></property>
+    </bean>
+
+    <bean name="benchi" class="com.sydney.dream.springbean.Car">
+        <property name="price" value="1000000"></property>
+        <property name="name"  value="benchi"></property>
+    </bean>
+
+
+    <bean name="room" class="com.sydney.dream.springbean.Room">
+        <property name="price" value="10000000"></property>
+        <property name="city" value="hangzhou"></property>
+    </bean>
+
+    <bean name="room01" class="com.sydney.dream.springbean.Room">
+        <property name="price" value="10000000"></property>
+        <property name="city" value="hangzhou"></property>
+    </bean>
+
+    <bean name="room02" class="com.sydney.dream.springbean.Room">
+        <property name="city" value="shanghai"></property>
+        <property name="price" value="20000000"></property>
+    </bean>
+    <!--
+        对集合类型的属性赋值，cars,<list>标签，同样的list 标签里面，也可以有内部bean。
+        list，set，array 的定义，基本上一样，
+
+        注意map 的定义。以及props的配置，
+    -->
+    <bean id="xiaoliang" class="com.sydney.dream.springbean.Person">
+        <property name="name" value="xiaoliang"></property>
+        <property name="dog"  ref="dog03"></property>
+        <property name="age" value="26"></property>
+        <property name="cars" >
+            <list>
+                <ref bean="baoma"></ref>
+                <ref bean="benchi"></ref>
+            </list>
+        </property>
+        <property name="rooms">
+            <map>
+                <entry key="1环" value-ref="room01"></entry>
+                <entry key="贵族" value-ref="room02"></entry>
+                <entry key="nima" >
+                    <bean class="com.sydney.dream.springbean.Room">
+                        <property name="city" value="shanghai"></property>
+                        <property name="price" value="20000000"></property>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="dataSources" class="com.sydney.dream.springbean.DataSources" >
+        <property name="properties">
+            <props>
+                <prop key="url">jdbcurl</prop>
+                <prop key="username">nima</prop>
+                <prop key="password">hello</prop>
+                <prop key="driver">jdbcdriver</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--
+        把集合属性放到外部，作为一个公共属性，供多个bean 引用。
+        需要引入命名空间。
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.3.xsd
+    -->
+    <util:list id="cars">
+        <ref bean="benchi"></ref>
+        <ref bean="baoma"></ref>
+    </util:list>
+
+    <util:map id="rooms">
+        <entry key="nima" value-ref="room01"></entry>
+        <entry key="nima" value-ref="room02"></entry>
+    </util:map>
+
+    <!--
+        p命名空间：
+        http://www.springframework.org/schema/p
+    -->
+    <bean id="haohua" class="com.sydney.dream.springbean.Room" p:price="1000000" p:city="nima"></bean>
+
+    <!--
+        c 命名空间
+    -->
+    <bean  id="xiaohuang" class="com.sydney.dream.springbean.Dog" c:name="xiaohua" c:id="1" c:size="5" ></bean>
+
+    <!--
+        byName,自动装配 autowared,根据名字，这里的名字是指bean 里的id 以及 类里面属性名,有就装载，
+        没有就不装载，
+        byType,必须只有一个，比如car 只可以有一个，否则会抛异常
+
+    -->
+    <bean id="xiaoqing" class="com.sydney.dream.springbean.Person" autowire="byName" 
+          p:age="26" p:name="xiaoqing"></bean>
+
+    <!--
+        Bean 之间的关系，
+        1，继承，不是指类中的继承，而是父bean 和子bean 之间的关系，
+        父bean 可以作为抽象bean，也叫作末班bean，bean 的class 属性被忽略的时候，
+        bean 必须设置成抽象bean，
+        两个属性，一个parent 一个abstract
+        2，依赖关系，depend-on 属性。depend-on 可以通过空格和逗号指定多个bean。
+    -->
+
+    <bean id="car01" class="com.sydney.dream.springbean.Car" p:name="hello" p:price="15000000" />
+    <bean id="car02" class="com.sydney.dream.springbean.Car" parent="car01" />
+
+    <!--
+        bean 的生命周期，
+        用scope 属性表示其生命周期，
+        sigleton: 单例模式的，随着容器创建而创建，
+        prototype: prototype: 多实例的，只有用到这个实例的时候才创建。
+
+    -->
+    <bean id="car03" class="com.sydney.dream.springbean.Car" p:name="world"
+          p:price="10000000"  scope="singleton"/>
+
+    <bean id="car04" class="com.sydney.dream.springbean.Car" p:name="world"
+          p:price="10000000"  scope="prototype"/>
+
+    <!--
+        bean 引入外部文件，即把变量放置到外部。
+        PropertyPlacehoderConfigurer
+    -->
+    <bean id="propertyPlacehoderConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:properties/test.properties" />
+    </bean>
+    <context:property-placeholder location="classpath:properties/test.properties" />
+    <bean id="propertyPlacehoderConfigurer02"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" >
+            <list>
+                <value>classpath:properties/test.properties</value>
+                <value>classpath:properties/test02.properties</value>
+              <!--  <value>classpath:properties/*.properties</value>-->
+            </list>
+        </property>
+    </bean>
+
+    <!--
+    字面量的表示：
+    整数：<property name="count" value="#{5}"/>
+    小数：<property name="frequency" value="#{89.7}"/>
+    科学计数法：<property name="capacity" value="#{1e4}"/>
+    String可以使用单引号或者双引号作为字符串的定界符号：<property name=“name” value="#{'Chuck'}"/>
+    或 <property name='name' value='#{"Chuck"}'/>
+    Boolean：<property name="enabled" value="#{false}"/>
+
+    作为其他对象，其他对象属性，其他对象的方法的引用
+
+    <property name="cars"  value="#{cars}" />
+    <property name="price" value="#{car.price}" />
+    <property name="name"  value="#{car}.toString().toUpperCase()"
+
+    支持加减乘除 + - * / % ^  #{T(java.lang.Math).PI*circle*radius}
+    支持字符串拼接 #{car.name + ' '  + car02.name}
+    支持比较运算符： < >  <= >=  == gt lt eq le ge  and or not !   #{!true}
+    支持三目运算符： ？：   #{true ？ hello ： hello02}
+
+    <propety name="price" value="#{car.price +car.price}"
+    -->
+
+
+</beans>
