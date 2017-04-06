@@ -26,6 +26,11 @@
         <module>spring/springbean</module>
         <module>workconclusion</module>
         <module>java/javabasic</module>
+        <module>java/javaio</module>
+        <module>java/javacollections</module>
+        <module>spring/springaop</module>
+        <module>mysql/mysqlgrammer</module>
+        <module>mysql/mysqlfunctions</module>
         <!--<module>workconclusion</module>-->
         <!--<module>workconclusion/webapp</module>-->
     </modules>
