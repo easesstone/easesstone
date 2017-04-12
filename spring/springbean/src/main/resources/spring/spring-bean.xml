@@ -229,7 +229,7 @@
     <!--
         Bean 之间的关系，
         1，继承，不是指类中的继承，而是父bean 和子bean 之间的关系，
-        父bean 可以作为抽象bean，也叫作末班bean，bean 的class 属性被忽略的时候，
+        父bean 可以作为抽象bean，也叫作模板bean，bean 的class 属性被忽略的时候，
         bean 必须设置成抽象bean，
         两个属性，一个parent 一个abstract
         2，依赖关系，depend-on 属性。depend-on 可以通过空格和逗号指定多个bean。

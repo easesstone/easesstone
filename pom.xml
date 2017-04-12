@@ -31,6 +31,7 @@
         <module>spring/springaop</module>
         <module>mysql/mysqlgrammer</module>
         <module>mysql/mysqlfunctions</module>
+        <module>springmvc/springmvchelloworld</module>
         <!--<module>workconclusion</module>-->
         <!--<module>workconclusion/webapp</module>-->
     </modules>
