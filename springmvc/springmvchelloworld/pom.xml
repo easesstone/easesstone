@@ -29,19 +29,14 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat6-maven-plugin</artifactId>
-                <version>2.2</version>
+                <artifactId>tomcat7-maven-plugin</artifactId>
                 <configuration>
-                    <username>tomcat</username>
-                    <password>secret</password>
-                </configuration>
-                <!--<configuration>
                     <url>http://localhost:8080/manager/text</url>
-                    <path>/${project.build.finalName}</path>
-                    <server>tomcat6</server>
+                    <server>tomcat</server>
                     <username>tomcat</username>
-                    <password>linuxmint</password>
-                </configuration>-->
+                    <password>tomcat</password>
+                    <path>/${project.name}</path>
+                </configuration>
             </plugin>
         </plugins>
     </build>
