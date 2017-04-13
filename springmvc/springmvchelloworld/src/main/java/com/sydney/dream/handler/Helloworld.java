@@ -13,6 +13,8 @@ public class Helloworld
     /**
      * 使用@RequestMapping 处理请求的URL
      * 既可以修饰方法，也可以修饰类
+     * 在类定义出的RequestMapping 是相对于根路径的，
+     * 在方法定义处的RequestMapping 是相对于类路径的。
      * @return
      */
     @RequestMapping("/helloworld.do")
