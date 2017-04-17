@@ -17,7 +17,8 @@ file--> new --> project-->create from archtype -->
 <servlet>
     <servlet-name>dispatcherServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <init-param>
+    <!--如果没有配置有init-param 则默认找WEB-INF 下面的 dispatcherServlet-servlet.xml -->
+    <init-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:springmvc/application.xml</param-value>
     </init-param>
@@ -71,5 +72,73 @@ public class Helloworld
 
 #### 6,配置相应的界面。
 在WEB-INF 下面建立一个views 目录，建立一个success.jsp 文件。  
-OK，done now。
+OK，done now。  
+
+### @RequestMapping
+#### 1，@RequestMapping 通用作用
+处理请求的URL，通常作为匹配URL 地址。可以修饰类，也可以修饰方法：  
+```java
+@Controller
+@RequestMapping("/helloworld") ///默认属性，所以可以不加value
+public class Helloworld
+{
+    @RequestMapping("/helloworld.do")
+    public String helloworld()
+    {
+        System.out.println("hello,world");
+        return "success";
+    }
+}
+```
+#### 2，设置请求的方式。 
+```java
+@Controller
+@RequestMapping(value="/helloworld",)
+public class Helloworld
+{
+    //使用method属性指定请求的参数。
+    @RequestMapping("/helloworld.do",method=RequestMethod.POST) 
+    public String helloworld()
+    {
+        System.out.println("hello,world");
+        return "success";
+    }
+}
+```
+
+#### 3，参数设置和header 的规定
+```java 
+@Controller
+@RequestMapping(value="/helloworld",)
+public class Helloworld
+{
+    // 无论是params，还是headers，都可以包含多个参数，以逗号相隔就行，
+    //如果不满足写了的条件，则就会报错，不允许请求资源。其次这两个属性还支持一些简单的表达式：\
+    //user  表示请求中，必须包含user的参数
+    //!user 表示请求中，不能包含user的参数
+    //user!=admin    表示请示中，user参数不能为admin
+    //user,age=10    表示请求中必须包含user,age这两个参数，而且age要等于10
+    @RequestMapping("/helloworld.do",method=RequestMethod.POST,
+    params={"username","age!=10"},headers={"Accept-Language=zh-CN,zh;q=0.8"}) 
+    
+    public String helloworld()
+    {
+        System.out.println("hello,world");
+        return "success";
+    }
+}
+```
+
+#### 4,@RequestMapping 中的通配符
+```
+通配符
+?        匹配url中的任意一个字符
+*        匹配url中的任意多个字符
+**       匹配url中的多层路径
+例如：
+/user/*/createUser    匹配/user/abcd/createUser
+/user/**/createUser   匹配/user/aa/bb/cc/createUser
+/user/?/createUser    匹配/user/a/createUser
+```
+
 
