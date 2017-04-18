@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>workconclusion</artifactId>
     <packaging>war</packaging>
-    <name>workconclusion Maven Webapp</name>
+    <name>workconclusion</name>
     <url>http://maven.apache.org</url>
     <dependencies>
         <!-- 添加Spring依赖 -->
@@ -132,6 +132,19 @@
     </dependencies>
     <build>
         <finalName>workconclusion</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <server>tomcat</server>
+                    <username>tomcat</username>
+                    <password>tomcat</password>
+                    <path>/${project.name}</path>
+                </configuration>
+            </plugin>
+        </plugins>
         <resources>
             <resource>
                 <directory>src/main/java</directory>
