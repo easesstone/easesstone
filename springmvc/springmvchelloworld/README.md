@@ -141,4 +141,78 @@ public class Helloworld
 /user/?/createUser    匹配/user/a/createUser
 ```
 
+#### 5,@PathVariable 配合  @RequestMapping 一起使用
+```java
+@Controller
+@RequestMapping(value="/helloworld",)
+public class Helloworld
+{
+    //URL使用占位符传递参数，
+    //通过@PathVariable 来获取URL 中的参数，即占位符的值。
+    @RequestMapping("/helloworld.do/{id}") 
+    public String helloworld(@PathVariable("id") Integer id)
+    {
+        System.out.println("hello,world");
+        return "success";
+    }
+}
+```
+
+#### 6,REST 风格的URL
+Spring MVC 支持把post 请求方式的URL 映射为PUT,DELETE,POST 这三种范式，而get 的请求方式，映射为Sparing MVC 中的GET 请求。  
+要实现这个方式的内容:  
+首先，需要把web.xml 中加一个filter，如下：  
+```xml
+<!-- 配置org.springframework.web.filter.HiddenHttpMethodFilter，可以把post请求转为delete或put请求 -->
+<filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
+可以看到HiddenHttpMethodFiter 的主要代码如下： 
+```java
+protected void doFilterInternal(HttpServletRequest request,
+            HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String paramValue = request.getParameter(this.methodParam);//this.methodParam是一个final常量，为_method
+        if (("POST".equals(request.getMethod()))  
+                && (StringUtils.hasLength(paramValue))) {
+            String method = paramValue.toUpperCase(Locale.ENGLISH);
+            HttpServletRequest wrapper = new HttpMethodRequestWrapper(request,
+                    method);
+            filterChain.doFilter(wrapper, response);
+        } else {
+            filterChain.doFilter(request, response);
+        }
+    }
+```
+```
+当这个过滤器拦截到一个请求时，就会先拿到这个请求的参数,它要满足两个条件，
+第一，浏览器发出的请求为post请示，
+第二，它还要有一个参数，参数名为 _method，而它的值，则可以为get,post,delete,put，
+此时过滤器就会把post请求转换成相应的请求，不然的话就不进行转换，直接请求。  
+至于添加_method参数的话，则可以使用hidden隐藏域，或者使用?拼接参数都可以。
+```
+
+如下是一个简单的例子：
+```java
+@RequestMapping(value="/testRest/{id}",method=RequestMethod.DELETE)
+    public String testRestDelete(@PathVariable("id") Integer id){
+        System.out.println("test DELETE:"+id);
+        return "spring";
+    }
+    @RequestMapping(value="/testRest/{id}",method=RequestMethod.PUT)
+    public String testRestPut(@PathVariable("id") Integer id){
+        System.out.println("test put:"+id);
+        return "spring";
+    }
+```
+
+
+
 
