@@ -1,9 +1,9 @@
 # Sparing MVC 工程简介和知识点：  
-## springmvc helloworld 入门配置  
-### 1，创建一个maven的web 工程  
+## 一、Springmvc helloworld 入门配置 
+### 1.1，创建一个maven的web 工程  
 file--> new --> project-->create from archtype -->
   org.apache.maven.archtypes:maven-archtype-webapp  
-### 2，配置pom 文件  
+### 1.2，配置pom 文件  
 ```xml
 <dependency>
     <groupId>org.springframework</groupId>
@@ -12,7 +12,7 @@ file--> new --> project-->create from archtype -->
 </dependency>
 ```
 此处${spring.version} 为4.3.5.RELEASE，具体设置，参见maven 的官方文档和说明  
-### 3，配置web.xml,设置DispatcherServlet  
+### 1.3，配置web.xml,设置DispatcherServlet  
 ```xml
 <servlet>
     <servlet-name>dispatcherServlet</servlet-name>
@@ -29,7 +29,7 @@ file--> new --> project-->create from archtype -->
     <url-pattern>/</url-pattern>
 </servlet-mapping>
 ```
-### 4,配置 Handler，相当于一个Controller  
+### 1.4,配置 Handler，相当于一个Controller  
 ```java
 package com.sydney.dream.handler;
 
@@ -60,7 +60,7 @@ public class Helloworld
 
 ```
 
-### 5,配置视图解析器，自动扫描的包。
+### 1.5,配置视图解析器，自动扫描的包。
 主要有自动扫描的包，以及视图解析器。
 ```xml
 <context:component-scan base-package="com.sydney.dream" />
@@ -70,12 +70,20 @@ public class Helloworld
 </bean>
 ```
 
-### 6,配置相应的界面。
+### 1.6,配置相应的界面。
 在WEB-INF 下面建立一个views 目录，建立一个success.jsp 文件。  
 OK，done now。  
 
-## @RequestMapping
-### 1，@RequestMapping 通用作用
+
+
+  
+  
+    
+    
+    
+
+## 二、@RequestMapping
+### 2.1，@RequestMapping 通用作用
 处理请求的URL，通常作为匹配URL 地址。可以修饰类，也可以修饰方法：  
 ```java
 @Controller
@@ -90,7 +98,7 @@ public class Helloworld
     }
 }
 ```
-### 2，设置请求的方式。 
+### 2.2，设置请求的方式。 
 ```java
 @Controller
 @RequestMapping(value="/helloworld",)
@@ -106,7 +114,7 @@ public class Helloworld
 }
 ```
 
-### 3，参数设置和header 的规定
+### 2.3，参数设置和header 的规定
 ```java 
 @Controller
 @RequestMapping(value="/helloworld",)
@@ -129,7 +137,7 @@ public class Helloworld
 }
 ```
 
-### 4,@RequestMapping 中的通配符
+### 2.4,@RequestMapping 中的通配符
 ```
 通配符
 ?        匹配url中的任意一个字符
@@ -141,7 +149,7 @@ public class Helloworld
 /user/?/createUser    匹配/user/a/createUser
 ```
 
-### 5,@PathVariable 配合  @RequestMapping 一起使用
+### 2.5,@PathVariable 配合  @RequestMapping 一起使用
 ```java
 @Controller
 @RequestMapping(value="/helloworld",)
@@ -158,7 +166,10 @@ public class Helloworld
 }
 ```
 
-### 6,REST 风格的URL
+
+  
+    
+### 2.6,REST 风格的URL
 Spring MVC 支持把post 请求方式的URL 映射为PUT,DELETE,POST 这三种范式，而get 的请求方式，映射为Sparing MVC 中的GET 请求。  
 要实现这个方式的内容:  
 首先，需要把web.xml 中加一个filter，如下：  
@@ -214,5 +225,42 @@ protected void doFilterInternal(HttpServletRequest request,
 ```
 
 
+## 三、获取HTTP Request 传过来的参数：  
+### 3.1 @RequestParam，获取穿过来的少量参数
+默认的属性有三个：  
+主要如下:  
+value  传递过来的参数名  
+required 是否非空，默认为true，如果传过来的值为空，则报错  
+default 默认值，可以为其设置默认值  
+```java 
+@RequestMapping(value="/testRequestParam")
+public String testRequestParam(@RequestParam("username") String username,
+    @RequestParam(value="password",required=false,defaultValue="我是默认值") String password)
+{
+    System.out.println(username);
+    System.out.println(password);
+    return "spring";
+}
+```
 
+### 3.2 @RequestHeader 获取请求头信息
+同样的@RequestHeader 有三个属性 value,required, default，示例如下：  
+```java 
+@RequestMapping("testRequestHeader")
+public String testRequestHeader(@RequestHeader(value="Accept-Language",required=false,defaultValue="null") String header)
+{
+    System.out.println(header);
+    return "spring";
+}
+```
+
+### 3.3 @CookieValue 获取cookie 中的值
+类似@Request Value 和@RequestHeader
+```java
+@RequestMapping("testCookieValue")
+public String testCookieValue(@CookieValue(value="JSESSIONID",required=true,defaultValue="no") String value){
+    System.out.println("CookieValue:"+value);
+    return "spring";
+}
+```
 
