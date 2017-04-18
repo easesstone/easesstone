@@ -188,19 +188,20 @@ Spring MVC 支持把post 请求方式的URL 映射为PUT,DELETE,POST 这三种�
 可以看到HiddenHttpMethodFiter 的主要代码如下： 
 ```java
 protected void doFilterInternal(HttpServletRequest request,
-            HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        String paramValue = request.getParameter(this.methodParam);//this.methodParam是一个final常量，为_method
-        if (("POST".equals(request.getMethod()))  
-                && (StringUtils.hasLength(paramValue))) {
-            String method = paramValue.toUpperCase(Locale.ENGLISH);
-            HttpServletRequest wrapper = new HttpMethodRequestWrapper(request,
-                    method);
-            filterChain.doFilter(wrapper, response);
-        } else {
-            filterChain.doFilter(request, response);
-        }
+    HttpServletResponse response, FilterChain filterChain)throws ServletException, IOException 
+{
+    String paramValue = request.getParameter(this.methodParam);//this.methodParam是一个final常量，为_method
+    if (("POST".equals(request.getMethod()))  && (StringUtils.hasLength(paramValue))) 
+    {
+        String method = paramValue.toUpperCase(Locale.ENGLISH);
+        HttpServletRequest wrapper = new HttpMethodRequestWrapper(request,method);
+        filterChain.doFilter(wrapper, response);
+    } 
+    else 
+    {
+        filterChain.doFilter(request, response);
     }
+}
 ```
 ```
 当这个过滤器拦截到一个请求时，就会先拿到这个请求的参数,它要满足两个条件，
@@ -213,15 +214,17 @@ protected void doFilterInternal(HttpServletRequest request,
 如下是一个简单的例子：
 ```java
 @RequestMapping(value="/testRest/{id}",method=RequestMethod.DELETE)
-    public String testRestDelete(@PathVariable("id") Integer id){
-        System.out.println("test DELETE:"+id);
-        return "spring";
-    }
-    @RequestMapping(value="/testRest/{id}",method=RequestMethod.PUT)
-    public String testRestPut(@PathVariable("id") Integer id){
-        System.out.println("test put:"+id);
-        return "spring";
-    }
+public String testRestDelete(@PathVariable("id") Integer id)
+{
+    System.out.println("test DELETE:"+id);
+    return "spring";
+}
+@RequestMapping(value="/testRest/{id}",method=RequestMethod.PUT)
+public String testRestPut(@PathVariable("id") Integer id)
+{
+    System.out.println("test put:"+id);
+    return "spring";
+}
 ```
 
 
@@ -247,7 +250,8 @@ public String testRequestParam(@RequestParam("username") String username,
 同样的@RequestHeader 有三个属性 value,required, default，示例如下：  
 ```java 
 @RequestMapping("testRequestHeader")
-public String testRequestHeader(@RequestHeader(value="Accept-Language",required=false,defaultValue="null") String header)
+public String testRequestHeader(@RequestHeader(value="Accept-Language", 
+    required=false,defaultValue="null") String header)
 {
     System.out.println(header);
     return "spring";
@@ -263,4 +267,40 @@ public String testCookieValue(@CookieValue(value="JSESSIONID",required=true,defa
     return "spring";
 }
 ```
+
+#### 3.4 使用POJO 获取大量的请求参数
+Spring MVC 可以把表单的值自动地映射为POJO 对象。支持级联配置。
+
+```html
+<form action="${pageContext.request.contextPath}/testPojo" method="post">
+    username:<input type="text" name="username"/><br/>
+    password:<input type="password" name="password"/><br/>
+    email:<input type="text" name="email"/><br/>
+    age:<input type="text" name="age"/><br/>
+    <!-- POJO支持级联属性，所以name属性是如下的写法，address.province，
+    意思就是有一个address的类，类里面有province属性 -->
+    province:<input type="text" name="address.province"/><br/>
+    city:<input type="text" name="address.city"/><br/>
+    <input type="submit" value="提交" />
+</form>
+```
+
+```java 
+public class User()
+{
+    private String username;
+    private String password;
+    private Address address;
+    //...... 此处省略getter 和setter 方法，以及无参构建函数。
+}
+```
+```
+public class Address()
+{
+    private String province;
+    private String city;
+    //......此处省略getter 和setter 方法，以及无参构造函数。
+}
+```
+
 
