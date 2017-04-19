@@ -3,6 +3,10 @@ package com.sydney.dream.handler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Created by Sydney on 2017/4/12.
  */
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/helloworld")
 public class Helloworld
 {
+    private static final String SUCCESS = "success";
     /**
      * 使用@RequestMapping 处理请求的URL
      * 既可以修饰方法，也可以修饰类
@@ -180,6 +185,13 @@ public class Helloworld
     {
         System.out.println(user);
         return "success";
+    }
+
+    @RequestMapping("/testServletApi")
+    public String testOriginServletApi(HttpServletRequest request,
+            HttpServletResponse response){
+        System.out.println("request:" + request + "response:" + response);
+        return SUCCESS;
     }
 
 }
