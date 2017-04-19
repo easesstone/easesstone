@@ -268,7 +268,7 @@ public String testCookieValue(@CookieValue(value="JSESSIONID",required=true,defa
 }
 ```
 
-#### 3.4 使用POJO 获取大量的请求参数
+### 3.4 使用POJO 获取大量的请求参数
 Spring MVC 可以把表单的值自动地映射为POJO 对象。支持级联配置。
 
 ```html
@@ -304,5 +304,5 @@ public class Address()
 ```
 
 
-## 四、
+## 四、支持原生的Servlet API。
 
