@@ -17,6 +17,12 @@ ${user.userId}<br>
 ${user.userName}<br>
 ${user.userPassword}<br>
 ${user.userEmail}<br>
-<form action=""></form>
+<form action="" method="post">
+    今日计划：<br><textarea rows="6" cols="180" name="workContent" ></textarea><br>
+    进    展：<br><textarea rows="6" cols="180" name="workStatus"></textarea><br>
+    明日计划：<br> <textarea rows="6" cols="180" name="nextPlan"></textarea><br>
+    风险和总结：<br><textarea rows="6" cols="180" name="conclusion"></textarea><br>
+    <input type="submit" value="submit">
+</form>
 </body>
 </html>
