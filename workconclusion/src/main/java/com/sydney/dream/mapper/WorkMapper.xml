@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sydney.dream.dao.WorkDao">
+    <resultMap id="workResultMap" type="com.sydney.dream.module.Work">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="workDate" property="workDate" jdbcType="CHAR" />
+        <result column="workContent" property="workContent" jdbcType="CHAR" />
+        <result column="workStatus" property="workStatus" jdbcType="CHAR" />
+        <result column="nextPlan" property="nextPlan" jdbcType="CHAR"/>
+        <result column="conclusion" property="conclusion" jdbcType="CHAR"/>
+    </resultMap>
+    <select id="selectAll" resultMap="workResultMap">
+        SELECT * FROM work
+    </select>
+    <insert id="addWork" parameterType="com.sydney.dream.module.Work"
+            useGeneratedKeys="false" keyProperty="id">
+        insert into work(id,workDate,workContent,workStatus,nextPlan,conclusion) values(#{id},#{workDate},#{workContent},#{workStatus},#{nextPlan},#{conclusion});
+    </insert>
+</mapper>

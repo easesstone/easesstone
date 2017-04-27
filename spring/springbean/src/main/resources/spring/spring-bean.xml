@@ -239,10 +239,11 @@
     <bean id="car02" class="com.sydney.dream.springbean.Car" parent="car01" />
 
     <!--
-        bean 的生命周期，
-        用scope 属性表示其生命周期，
-        sigleton: 单例模式的，随着容器创建而创建，
-        prototype: prototype: 多实例的，只有用到这个实例的时候才创建。
+        bean 的作用与
+        用scope 属性表示其作用于
+        sigleton: 单例模式的，随着容器创建而创建，整个生命周期内只创建一个bean.
+        prototype: prototype: 多实例的，只有用到这个实例的时候才创建。每次请求，
+        会产生一个新的作用域
 
     -->
     <bean id="car03" class="com.sydney.dream.springbean.Car" p:name="world"
@@ -281,17 +282,22 @@
     Boolean：<property name="enabled" value="#{false}"/>
 
     作为其他对象，其他对象属性，其他对象的方法的引用
+    <propety name="price" value="#{car.price +car.price}"
+    引用其他类的静态成员和方法
+    <property name="cars"  value="#{T(java.lang.Math).PI}" />
 
     <property name="cars"  value="#{cars}" />
     <property name="price" value="#{car.price}" />
     <property name="name"  value="#{car}.toString().toUpperCase()"
 
     支持加减乘除 + - * / % ^  #{T(java.lang.Math).PI*circle*radius}
-    支持字符串拼接 #{car.name + ' '  + car02.name}
-    支持比较运算符： < >  <= >=  == gt lt eq le ge  and or not !   #{!true}
+    支持字符串拼接 #{car.name + ' '  + car02.name}   即加号
+    支持比较逻辑运算符： < >  <= >=  == gt lt eq le ge  and or not !   #{!true}
     支持三目运算符： ？：   #{true ？ hello ： hello02}
 
-    <propety name="price" value="#{car.price +car.price}"
+
+    支持正则表达式：
+    <property name="name" value="#{admin.email matches 'nima'}"/>
     -->
 
 

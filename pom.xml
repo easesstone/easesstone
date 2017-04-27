@@ -33,6 +33,8 @@
         <module>mysql/mysqlfunctions</module>
         <module>springmvc/springmvchelloworld</module>
         <module>javawebbasic/servlet</module>
+        <module>seemybatisl</module>
+        <!--<module>seespringboot/springboothelloworld</module>-->
         <!--<module>workconclusion</module>-->
         <!--<module>workconclusion/webapp</module>-->
     </modules>

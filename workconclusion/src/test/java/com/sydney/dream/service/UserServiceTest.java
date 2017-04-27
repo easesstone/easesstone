@@ -1,6 +1,6 @@
 package com.sydney.dream.service;
 
-import com.sydney.dream.base_test.SpringTestCase;
+import com.sydney.dream.commonTestUtils.SpringTestCase;
 import com.sydney.dream.module.User;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -16,8 +16,14 @@ public class UserServiceTest extends SpringTestCase{
     Logger logger = Logger.getLogger(UserServiceTest.class);
 
     @Test
-    public void selectUserByIdTest(){
+    public void testSelectUserById(){
         User user = userService.selectUserById(5);
-        logger.debug("查找结果" + user);
+        logger.debug("查找结果=====================" + user);
+    }
+
+    @Test
+    public void testSelectUserByName(){
+        User user = userService.selectUserByUserName("kaka");
+        logger.debug("查找结果========================" + user);
     }
 }

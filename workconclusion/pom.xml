@@ -129,6 +129,14 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--表格处理 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.9</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>workconclusion</finalName>

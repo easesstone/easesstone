@@ -1,4 +1,4 @@
-package com.sydney.dream.base_test;
+package com.sydney.dream.commonTestUtils;
 
 import org.slf4j.Logger;
 import org.junit.runner.RunWith;

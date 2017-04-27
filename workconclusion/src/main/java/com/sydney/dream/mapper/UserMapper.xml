@@ -12,4 +12,7 @@
     <select id="selectUserById" parameterType="int" resultMap="BaseResultMap">
         SELECT * FROM users WHERE USER_ID = #{userId}
     </select>
+    <select id="selectUserByUserName" parameterType="String" resultMap="BaseResultMap" >
+        SELECT * FROM users where USER_NAME = #{userName}
+    </select>
 </mapper>

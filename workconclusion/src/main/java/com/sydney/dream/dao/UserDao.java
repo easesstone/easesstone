@@ -7,4 +7,5 @@ import com.sydney.dream.module.User;
  */
 public interface UserDao {
     public User selectUserById(Integer userId);
+    public User selectUserByUserName(String name);
 }

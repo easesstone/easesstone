@@ -7,15 +7,11 @@ import java.util.Date;
  */
 public class Work {
     private int id;
-    private Date workDate;
-    private String workContent;
-    private int workStatus;
-    private String nextPlan;
-    private String questionId;
-    private String knowledgeId;
-
-    public Work() {
-    }
+    private Date workDate;  // 工作日
+    private String workContent; //工作计划
+    private String workStatus;  // 工作进展
+    private String nextPlan;  // 计划
+    private String conclusion;  //工作总结
 
     public int getId() {
         return id;
@@ -41,11 +37,11 @@ public class Work {
         this.workContent = workContent;
     }
 
-    public int getWorkStatus() {
+    public String getWorkStatus() {
         return workStatus;
     }
 
-    public void setWorkStatus(int workStatus) {
+    public void setWorkStatus(String workStatus) {
         this.workStatus = workStatus;
     }
 
@@ -57,20 +53,15 @@ public class Work {
         this.nextPlan = nextPlan;
     }
 
-    public String getQuestionId() {
-        return questionId;
+    public String getConclusion() {
+        return conclusion;
     }
 
-    public void setQuestionId(String questionId) {
-        this.questionId = questionId;
+    public void setConclusion(String conclusion) {
+        this.conclusion = conclusion;
     }
 
-    public String getKnowledgeId() {
-        return knowledgeId;
-    }
-
-    public void setKnowledgeId(String knowledgeId) {
-        this.knowledgeId = knowledgeId;
+    public Work() {
     }
 
     @Override
@@ -81,8 +72,7 @@ public class Work {
                 ", workContent='" + workContent + '\'' +
                 ", workStatus=" + workStatus +
                 ", nextPlan='" + nextPlan + '\'' +
-                ", questionId='" + questionId + '\'' +
-                ", knowledgeId='" + knowledgeId + '\'' +
+                ", conclusion='" + conclusion + '\'' +
                 '}';
     }
 }
